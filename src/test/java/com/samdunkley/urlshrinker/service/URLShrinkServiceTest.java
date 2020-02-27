@@ -88,6 +88,19 @@ public class URLShrinkServiceTest {
     }
 
     @Test
+    public void testShrinkUrlInvalid() {
+        var request = new URLShrinkRequest();
+        request.setUrl("NOT A URL");
+
+        try {
+            shrinkService.shrinkUrl(request);
+            fail("Exception not thrown");
+        } catch (ResponseStatusException e) {
+            assertResponseException(e, HttpStatus.UNPROCESSABLE_ENTITY, "Invalid URL");
+        }
+    }
+
+    @Test
     public void testShrinkUrlSuccessWithHttpPrefix() {
         testShrinkSuccess(testUrlWithHttp);
     }
