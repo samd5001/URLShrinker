@@ -1,0 +1,24 @@
+version: "3"
+services:
+  mongo:
+    image: mongo
+    container_name: mongo
+    ports:
+      - 27017:27017
+    restart: always
+    command: mongod
+  app:
+    image: urlshrinker
+    container_name: app
+    ports:
+      - 80:8080
+    environment:
+      - api_hostname=http://localhost
+      - api_port=
+      - idstrategy_startid=20000
+      - spring_data_mongodb_host=mongo
+    restart: always
+    links:
+      - mongo
+    depends_on:
+      - mongo
